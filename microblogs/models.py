@@ -28,3 +28,27 @@ class User(AbstractUser):
         blank = True,
         max_length = 520
     )
+
+class Post(models.Model):
+    author = models.ForeignKey(
+        User,
+        on_delete = models.CASCADE,
+        related_name = "blog_posts",
+        null = True
+    )
+    text = models.CharField(
+        max_length = 280,
+        blank = False,
+        null = True
+    )
+    created_at = models.DateTimeField(
+        auto_now = False,
+        auto_now_add = True,
+        null = True
+    )
+
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.text

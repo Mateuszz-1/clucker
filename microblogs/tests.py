@@ -1,11 +1,13 @@
-from unittest.loader import VALID_MODULE_NAME
-from xml.dom import ValidationErr
+from ast import Delete
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from .models import User
+from .models import User, Post
+from .management.commands.seed import Command as seeder
 
 class UserModelTestCase(TestCase):
     def setUp(self):
+        #seeder()
+        #seeder.handle()
         self.user = User.objects.create_user(
             '@george',
             first_name = 'George',
@@ -148,3 +150,50 @@ class UserModelTestCase(TestCase):
     def _assert_user_is_invalid(self):
         with self.assertRaises(ValidationError):
             self.user.full_clean()
+
+
+class PostModelTestCase(TestCase):
+    def setUp(self):
+        # Create user for making Posts
+        self.user1 = User.objects.create_user(
+            '@george',
+            first_name = 'George',
+            last_name = 'Lemons',
+            email = 'georgelemons@apples.org',
+            password = 'Password123',
+            bio = 'Waddle Waddle'
+        )
+        self.post1 = Post(
+            author = self.user1,
+            text = "the big orange was in my way",
+        )
+    
+    #Deleting user does not delete post - fix needed
+    def test_deleting_user_deletes_post(self):
+        del self.user1
+        print(self.post1.author)
+        print(self.post1.text)
+        print(self.post1.created_at)
+    
+    def test_user_can_have_multiple_posts(self):
+        self.post2 = Post(
+            author = self.user1,
+            text = "a big cluck"
+        )
+        print(self.post2.author)
+        self.post3 = Post(
+            author = self.user1,
+            text = "my third cluck! this is GREAT"
+        )
+    
+    def test_post_text_can_be_280_characters(self):
+        self.post = Post(
+            author = self.user1,
+            text = "x" * 280
+        )
+    
+    def test_post_text_can_be_280_characters(self):
+        self.post = Post(
+            author = self.user1,
+            text = "x" * 281
+        )
