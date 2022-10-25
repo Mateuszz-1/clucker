@@ -1,4 +1,4 @@
-from django.core.validators import RegexValidator, EmailValidator
+from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -22,7 +22,6 @@ class User(AbstractUser):
     email = models.EmailField(
         blank = False,
         unique = True,
-        validators = [EmailValidator]
     )
     bio = models.CharField(
         blank = True,

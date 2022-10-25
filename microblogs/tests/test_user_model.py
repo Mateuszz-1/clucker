@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from .models import User, Post
-from .management.commands.seed import Command as seeder
+from ..models import User, Post
+from ..management.commands.seed import Command as seeder
 
 class UserModelTestCase(TestCase):
     def setUp(self):
