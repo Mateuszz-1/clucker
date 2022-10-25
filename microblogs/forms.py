@@ -1,13 +1,15 @@
 from django import forms
 from django.core.validators import RegexValidator
 
-from microblogs.models import User
+from microblogs.models import Post, User
 
 class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'bio']
-        widgets = { 'bio': forms.Textarea() }
+        widgets = {
+            'bio': forms.Textarea()
+        }
 
     new_password = forms.CharField(
         label="Password",
@@ -27,3 +29,11 @@ class SignUpForm(forms.ModelForm):
         password_confirmation = self.cleaned_data.get('password_confirmation')
         if new_password != password_confirmation:
             self.add_error("password_confirmation", "Confirmation does not match password.")
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['text']
+        widgets = {
+            'text': forms.Textarea()
+        }
