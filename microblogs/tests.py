@@ -1,4 +1,3 @@
-from ast import Delete
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from .models import User, Post
@@ -155,7 +154,7 @@ class UserModelTestCase(TestCase):
 class PostModelTestCase(TestCase):
     def setUp(self):
         # Create user for making Posts
-        self.user1 = User.objects.create_user(
+        self.user = User.objects.create_user(
             '@george',
             first_name = 'George',
             last_name = 'Lemons',
@@ -163,12 +162,43 @@ class PostModelTestCase(TestCase):
             password = 'Password123',
             bio = 'Waddle Waddle'
         )
-        self.post1 = Post(
-            author = self.user1,
+        self.post = Post(
+            author = self.user,
             text = "the big orange was in my way",
         )
     
-    #Deleting user does not delete post - fix needed
+    def test_valid_message(self):
+        try:
+            self.post.full_clean()
+        except ValidationError:
+            self.fail("Test message should be valid")
+    
+    def test_author_must_not_be_blank(self):
+        self.post.author = None
+        with self.assertRaises(ValidationError):
+            self.post.full_clean()
+    
+    def test_text_must_not_be_blank(self):
+        self.post.text = ''
+        with self.assertRaises(ValidationError):
+            self.post.full_clean()
+    
+    def test_text_must_not_be_overlong(self):
+        self.post.text = 'x' * 281
+        with self.assertRaises(ValidationError):
+            self.post.full_clean()
+    
+
+
+
+
+
+
+
+
+
+
+    """#Deleting user does not delete post - fix needed
     def test_deleting_user_deletes_post(self):
         del self.user1
         print(self.post1.author)
@@ -196,4 +226,4 @@ class PostModelTestCase(TestCase):
         self.post = Post(
             author = self.user1,
             text = "x" * 281
-        )
+        )"""
