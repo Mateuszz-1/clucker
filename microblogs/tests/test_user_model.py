@@ -13,7 +13,7 @@ class UserModelTestCase(TestCase):
             last_name = 'Lemons',
             email = 'georgelemons@apples.org',
             password = 'Password123',
-            bio = 'Good day mates, my name is George'
+            bio = 'Good day mates, my name is George',
         )
         self.user2 = User.objects.create_user(
             '@logan',
@@ -21,7 +21,7 @@ class UserModelTestCase(TestCase):
             last_name = 'Grapes',
             email = 'logangrapes@lemonade.org',
             password = 'Password123',
-            bio = "Logan. I run a lemonade stand, don't ask me for grapes"
+            bio = "Logan. I run a lemonade stand, don't ask me for grapes",
         )
 
     def test_valid_user(self):

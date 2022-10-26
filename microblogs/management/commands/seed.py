@@ -1,8 +1,10 @@
 from django.core.management.base import BaseCommand, CommandError
 from faker import Faker
-from ...models import User
+
 import string
 import secrets
+
+from microblogs.models import User
 
 class Command(BaseCommand):
     def __init__(self):

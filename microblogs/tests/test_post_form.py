@@ -11,7 +11,7 @@ class PostFormTestCase(TestCase):
             last_name = 'Lemons',
             email = 'georgelemons@apples.org',
             password = 'Password123',
-            bio = 'Good day mates, my name is George'
+            bio = 'Good day mates, my name is George',
         )
 
     def test_valid_post_form(self):
